@@ -1,0 +1,28 @@
+# Secrets — never commit
+.env
+
+# Compiled binaries
+indexer.exe
+indexer
+indexer_linux
+on-chain-pool-indexer.exe
+
+# Debug/inspection scripts (local only)
+inspect_flydb.go
+check_db.go
+debug_clmm.go
+query_pool.go
+
+# IDL files (large JSON, referenced locally only)
+dlmm.json
+cp_amm.json
+orca.json
+raydium_clmm.json
+raydium_cp_swap.json
+type_proto.json
+
+# Build/debug artifacts
+*.log
+sync_failures_*.json
+sync_failures_*.csv
+watcher_price_hits.jsonl
