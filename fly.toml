@@ -1,19 +1,30 @@
-# fly.toml — on-chain-pool-indexer
-# Indexes pools directly from Solana/EVM chains into the DB.
-# Deploy: fly deploy --app onchain-pool-indexer
-# Secrets: fly secrets set DATABASE_URL="..." --app onchain-pool-indexer
+# fly.toml app configuration file generated for onchain-pool-indexer on 2026-08-21T12:31:56Z
+#
+# See https://fly.io/docs/reference/configuration/ for information about how to use this file.
+#
 
-app            = "onchain-pool-indexer"
-primary_region = "sin"
+app = 'onchain-pool-indexer'
+primary_region = 'ams'
 
 [build]
-  dockerfile = "Dockerfile"
+  dockerfile = 'Dockerfile'
 
 [env]
-  BACKFILL_SKIP = "clmm"
-
-# DATABASE_URL, SOLANA_RPC_ENDPOINT, SOLANA_WS_ENDPOINT,
-# BSC_RPC_ENDPOINT, BASE_RPC_ENDPOINT must be set as secrets.
+  BACKFILL_SKIP = 'clmm'
 
 [processes]
-  app = "/app/indexer"
+  app = '/app/indexer'
+
+[http_service]
+  internal_port = 8080
+  force_https = true
+  auto_stop_machines = 'stop'
+  auto_start_machines = true
+  min_machines_running = 0
+  processes = ['app']
+
+[[vm]]
+  memory = '1gb'
+  cpu_kind = 'shared'
+  cpus = 1
+  memory_mb = 256
