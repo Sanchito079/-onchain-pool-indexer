@@ -1,7 +1,6 @@
 # fly.toml — on-chain-pool-indexer
-# Indexes pools directly from Solana/EVM chains into the DB.
-# Deploy: fly deploy --app onchain-pool-indexer
-# Secrets: fly secrets set DATABASE_URL="..." --app onchain-pool-indexer
+# Pure background worker — indexes pools from Solana/EVM into the DB.
+# No HTTP service — uses [machine] to prevent autostop.
 
 app            = "onchain-pool-indexer"
 primary_region = "sin"
@@ -13,7 +12,14 @@ primary_region = "sin"
   BACKFILL_SKIP = "clmm"
 
 # DATABASE_URL, SOLANA_RPC_ENDPOINT, SOLANA_WS_ENDPOINT,
-# BSC_RPC_ENDPOINT, BASE_RPC_ENDPOINT must be set as secrets.
+# SOLANA_BACKFILL_RPC_ENDPOINT, BSC_RPC_ENDPOINT, BASE_RPC_ENDPOINT
+# must be set as fly secrets.
+
+# Prevent fly.io from auto-stopping this machine.
+# Background workers don't serve HTTP so fly would kill them after inactivity.
+[machines]
+  auto_stop  = false
+  auto_start = true
 
 [processes]
   app = "/app/indexer"
